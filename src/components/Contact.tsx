@@ -1,63 +1,104 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { Mail } from "lucide-react"; // Only keeping Mail from lucide
+
+// Custom Instagram Icon SVG
+const InstagramIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    className={className}
+  >
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
+
+// Custom Facebook Icon SVG
+const FacebookIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+  </svg>
+);
+
 export default function Contact() {
   return (
-    <section
-      id="contact"
-      className="relative z-10 mt-14 w-full max-w-5xl scroll-mt-24"
-    >
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm sm:p-10">
-        <div className="space-y-5 text-center">
-          <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-            Let&apos;s Build Something Amazing
-          </h2>
-          <p className="mx-auto max-w-sm text-zinc-300">
-            Tell us about your next product and we&apos;ll help shape it into a
-            standout digital experience.
-          </p>
-
-          <a
-            href="mailto:zefura.dev@gmail.com"
-            className="mx-auto inline-flex rounded-xl border border-violet-300/40 bg-violet-500/25 px-7 py-4 text-lg font-bold text-violet-100 transition-colors duration-200 hover:bg-violet-500/35 sm:text-2xl"
-          >
-            zefura.dev@gmail.com
-          </a>
-
-          <div className="space-y-3 pt-2 text-sm text-zinc-200">
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-violet-300"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="h-4 w-4 fill-current"
-                aria-hidden="true"
-              >
-                <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 1.8A3.7 3.7 0 0 0 3.8 7.5v9A3.7 3.7 0 0 0 7.5 20.2h9a3.7 3.7 0 0 0 3.7-3.7v-9a3.7 3.7 0 0 0-3.7-3.7Zm9.65 1.35a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 1.8A3.2 3.2 0 1 0 15.2 12 3.2 3.2 0 0 0 12 8.8Z" />
-              </svg>
-              <span>zefura.dev</span>
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-violet-300"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="h-4 w-4 fill-current"
-                aria-hidden="true"
-              >
-                <path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.5 1.6-1.5h1.7V5a20 20 0 0 0-2.5-.1c-2.4 0-4.1 1.5-4.1 4.2V11H8v3h2.7v8z" />
-              </svg>
-              <span>Zefura.Dev</span>
-            </a>
-          </div>
-        </div>
+    <section id="contact" className="mx-auto w-full max-w-4xl px-6 py-32 sm:px-10">
+      <div className="mb-12 text-center">
+        <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+          Ready to Build?
+        </h2>
+        <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
+        Bring us your vision, and we’ll turn it into a flawless digital reality. Reach out today to get started.
+        </p>
       </div>
 
-      <footer className="mt-8 border-t border-white/10 pt-6 text-center text-sm text-zinc-400">
-        © 2026 Zefura.dev
+      {/* Massive Glowing Email Box */}
+      <motion.a
+        href="mailto:zefura.dev@gmail.com"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="group relative flex w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-violet-500/30 bg-violet-500/10 py-16 backdrop-blur-md transition-all hover:border-violet-500/60 hover:bg-violet-500/20"
+      >
+        {/* Animated background glow */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-violet-500/0 via-violet-500/10 to-blue-500/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        
+        <Mail size={48} className="relative z-10 mb-6 text-violet-300 transition-transform duration-300 group-hover:-translate-y-2 group-hover:text-white" />
+        <h3 className="relative z-10 text-2xl font-bold text-white sm:text-4xl">
+          zefura.dev@gmail.com
+        </h3>
+      </motion.a>
+
+      {/* Social Media Links */}
+      <div className="mt-16 flex items-center justify-center gap-8">
+        <motion.a
+          href="https://www.instagram.com/zefura.dev/"
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ y: -5, color: "#fff" }}
+          className="flex items-center gap-3 text-zinc-400 transition-colors hover:text-violet-400"
+        >
+          <InstagramIcon size={24} />
+          <span className="text-lg font-medium">zefura.dev</span>
+        </motion.a>
+        
+        <motion.a
+          href="https://web.facebook.com/profile.php?id=61589595954690"
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ y: -5, color: "#fff" }}
+          className="flex items-center gap-3 text-zinc-400 transition-colors hover:text-blue-400"
+        >
+          <FacebookIcon size={24} />
+          <span className="text-lg font-medium">Zefura.Dev</span>
+        </motion.a>
+      </div>
+
+      <footer className="mt-32 border-t border-white/10 pt-8 text-center text-sm tracking-widest text-zinc-600">
+        © 2026 ZEFURA.DEV
       </footer>
     </section>
   );

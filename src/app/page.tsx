@@ -1,91 +1,108 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
+import { useEffect } from "react";
 import Contact from "@/components/Contact";
 import Navbar from "@/components/Navbar";
 import Portfolio from "@/components/Portfolio";
 import Services from "@/components/Services";
 import Team from "@/components/Team";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      delay,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-    },
-  }),
-};
-
 export default function Home() {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20, mass: 0.5 });
+  const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20, mass: 0.5 });
+
+  const spotlight = useMotionTemplate`radial-gradient(1200px circle at ${smoothX}px ${smoothY}px, rgba(139, 92, 246, 0.35), rgba(59, 130, 246, 0.15), transparent 80%)`;
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
   return (
-    <>
+    <div className="relative min-h-screen bg-[#030303] text-white selection:bg-violet-500/30">
+      
+      <motion.div
+        className="pointer-events-none fixed inset-0 z-30 mix-blend-screen"
+        style={{ background: spotlight }}
+      />
+
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute -left-[10%] top-[10%] h-[500px] w-[500px] animate-float rounded-full bg-violet-600/20 blur-[120px]" />
+        <div className="absolute -right-[5%] top-[40%] h-[400px] w-[400px] animate-float rounded-full bg-blue-600/20 blur-[100px]" style={{ animationDelay: "2s" }} />
+        <div className="absolute bottom-[-10%] left-[20%] h-[600px] w-[600px] animate-float rounded-full bg-violet-900/20 blur-[150px]" style={{ animationDelay: "4s" }} />
+      </div>
+
       <Navbar />
-      <main
-        id="top"
-        className="relative flex min-h-screen flex-col items-center overflow-hidden bg-[#121217] px-6 py-20 text-zinc-100 sm:px-10"
-      >
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-28 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-violet-500/20 blur-3xl" />
-          <div className="absolute bottom-6 right-8 h-44 w-44 rounded-full bg-violet-400/15 blur-2xl" />
-        </div>
 
-        <section className="relative z-10 w-full max-w-5xl rounded-3xl border border-violet-300/10 bg-white/[0.03] p-8 shadow-[0_0_80px_-30px_rgba(139,92,246,0.45)] backdrop-blur-sm sm:p-14">
-          <motion.p
-            custom={0.05}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mb-5 text-sm font-medium uppercase tracking-[0.2em] text-violet-300"
-          >
-            Zefura.dev
-          </motion.p>
+      <main className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pt-20 text-center sm:px-10">
+        
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-8 inline-flex items-center gap-3 rounded-full border border-violet-500/30 bg-violet-500/10 px-5 py-2 backdrop-blur-md"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
+          </span>
+          <span className="text-xs uppercase tracking-widest text-violet-200">
+            Zefura.dev is online
+          </span>
+        </motion.div>
 
-          <motion.h1
-            custom={0.15}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="max-w-3xl text-4xl font-extrabold leading-tight text-white sm:text-6xl"
-          >
-            Crafting Digital Excellence
-          </motion.h1>
+        <motion.h1 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+          className="max-w-4xl text-5xl font-bold tracking-tighter text-white sm:text-7xl lg:text-8xl"
+        >
+          Crafting Digital <br />
+          <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+            Excellence
+          </span>
+        </motion.h1>
 
-          <motion.p
-            custom={0.28}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300"
-          >
-            Our 5-person expert team creates standout digital experiences through
-            Web Design, UI/UX, and Branding that turn bold ideas into measurable
-            growth.
-          </motion.p>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="mt-8 max-w-3xl text-lg leading-relaxed text-zinc-400 sm:text-xl"
+        >
+          We are a focused collective of designers and developers building high-performance platforms, striking brand identities, and intuitive interfaces for ambitious startups and global brands.
+        </motion.p>
 
-          <motion.div
-            custom={0.4}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mt-10"
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+          className="mt-12 flex flex-col items-center gap-6 sm:flex-row"
+        >
+          <motion.a 
+            href="#contact" 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative overflow-hidden rounded-full bg-white px-8 py-4 text-sm font-semibold text-black shadow-[0_0_40px_rgba(139,92,246,0.3)] transition-shadow hover:shadow-[0_0_60px_rgba(59,130,246,0.5)]"
           >
-            <a
-              href="#"
-              className="inline-flex items-center rounded-full bg-violet-500 px-7 py-3 text-sm font-semibold text-white transition duration-300 hover:bg-violet-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121217]"
-            >
-              View Our Work
-            </a>
-          </motion.div>
-        </section>
+            <span className="relative z-10">Start a Project</span>
+          </motion.a>
+        </motion.div>
+      </main>
+
+      <div className="relative z-10">
         <Services />
         <Portfolio />
         <Team />
         <Contact />
-      </main>
-    </>
-);
+      </div>
+    </div>
+  );
 }

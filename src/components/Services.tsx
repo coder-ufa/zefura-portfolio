@@ -1,71 +1,51 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MonitorCog, Palette, Sparkles } from "lucide-react";
+import { MonitorSmartphone, Sparkles, LayoutTemplate } from "lucide-react";
 
 const services = [
-  {
-    title: "Web Design",
-    description:
-      "Fast, modern, and conversion-focused websites engineered for performance and clarity.",
-    icon: MonitorCog,
-    cardClassName: "md:col-span-2",
+  { 
+    title: "Web Design", 
+    desc: "We build fast, responsive, and visually stunning websites engineered for performance and high conversion rates.", 
+    icon: <MonitorSmartphone size={32} className="mb-6 text-violet-400" />
   },
-  {
-    title: "UI/UX Design",
-    description:
-      "Intuitive product flows and polished interfaces that feel effortless across devices.",
-    icon: Palette,
-    cardClassName: "md:row-span-2",
+  { 
+    title: "UI/UX Design", 
+    desc: "Intuitive and aesthetic digital interfaces crafted to provide seamless user experiences and drive engagement.", 
+    icon: <LayoutTemplate size={32} className="mb-6 text-blue-400" />
   },
-  {
-    title: "Branding",
-    description:
-      "Distinct visual systems and brand language that make your business memorable.",
-    icon: Sparkles,
-    cardClassName: "",
+  { 
+    title: "Branding", 
+    desc: "Iconic visual identities, typography, and brand strategies designed to make your business stand out globally.", 
+    icon: <Sparkles size={32} className="mb-6 text-violet-400" />
   },
 ];
 
 export default function Services() {
   return (
-    <section
-      id="services"
-      className="relative z-10 mt-10 w-full max-w-5xl scroll-mt-24"
-    >
-      <h2 className="mb-6 text-3xl font-bold text-white sm:text-4xl">
-        Our Expertise
-      </h2>
+    <section id="services" className="mx-auto w-full max-w-7xl px-6 py-32 sm:px-10">
+      <div className="mb-16 text-center sm:text-left">
+        <h2 className="bg-gradient-to-r from-white to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
+          What we do
+        </h2>
+      </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-rows-2">
-        {services.map((service) => {
-          const Icon = service.icon;
-
-          return (
-            <motion.article
-              key={service.title}
-              whileHover={{
-                scale: 1.03,
-                borderColor: "rgba(167,139,250,0.8)",
-                boxShadow: "0 0 40px -16px rgba(139,92,246,0.9)",
-              }}
-              transition={{ type: "spring", stiffness: 260, damping: 22 }}
-              className={`group rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm ${service.cardClassName}`}
-              style={{
-                boxShadow: "0 0 0 rgba(139,92,246,0)",
-              }}
-            >
-              <div className="mb-4 inline-flex rounded-xl border border-violet-300/20 bg-violet-500/10 p-3 text-violet-200">
-                <Icon size={20} strokeWidth={2.2} />
-              </div>
-
-              <h3 className="text-xl font-semibold text-white">{service.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-300">
-                {service.description}
-              </p>
-            </motion.article>
-          );
-        })}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {services.map((service, i) => (
+          <motion.div
+            key={service.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1 }}
+            whileHover={{ y: -5, scale: 1.02 }}
+            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0A0A0A] p-8 shadow-2xl transition-colors hover:border-violet-500/50"
+          >
+            {service.icon}
+            <h3 className="mb-4 text-2xl font-semibold text-white">{service.title}</h3>
+            <p className="text-sm leading-relaxed text-zinc-400">{service.desc}</p>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
