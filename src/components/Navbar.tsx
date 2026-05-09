@@ -17,7 +17,7 @@ export default function Navbar() {
     <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#030303]/50 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-10">
         <a href="#top" className="text-xl font-bold tracking-tight text-white">
-          Zefura
+          zefura
           <span style={{ color: "hsl(var(--theme-hue, 260), 80%, 60%)" }} className="transition-colors duration-100">
             .dev
           </span>

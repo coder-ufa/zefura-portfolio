@@ -24,7 +24,7 @@ export default function Contact() {
     const formData = new FormData(event.currentTarget);
     
     // Your live Web3Forms Access Key
-    formData.append("access_key", "94effdf8-77ed-4513-a4d8-4d5653394187"); 
+    formData.append("access_key", "56e6d5e3-d5f5-4b49-a0f8-c61a7732c30a"); 
 
     const object = Object.fromEntries(formData);
     const json = JSON.stringify(object);
