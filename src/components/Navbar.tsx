@@ -17,7 +17,10 @@ export default function Navbar() {
     <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#030303]/50 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-10">
         <a href="#top" className="text-xl font-bold tracking-tight text-white">
-          Zefura<span className="text-violet-500">.dev</span>
+          Zefura
+          <span style={{ color: "hsl(var(--theme-hue, 260), 80%, 60%)" }} className="transition-colors duration-100">
+            .dev
+          </span>
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -31,11 +34,11 @@ export default function Navbar() {
               {link.label}
             </motion.a>
           ))}
-          {/* Minimal Contact Link without the heavy box */}
+          {/* Contact button now perfectly synced to the dynamic color loop */}
           <motion.a
             href="#contact"
-            whileHover={{ y: -2, color: "#fff" }}
-            className="ml-4 text-xs uppercase tracking-widest text-violet-400 transition-colors"
+            whileHover={{ y: -2 }}
+            className="ml-4 text-xs uppercase tracking-widest text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors hover:text-white"
           >
             Contact
           </motion.a>
@@ -58,15 +61,17 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="py-4 text-lg font-semibold tracking-wide text-white transition-colors hover:text-violet-400"
+              // Mobile nav links hover effect synced
+              className="py-4 text-lg font-semibold tracking-wide text-white transition-colors hover:text-[hsl(var(--theme-hue,260),80%,60%)]"
             >
               {link.label}
             </a>
           ))}
+          {/* Mobile Contact button synced */}
           <a
             href="#contact"
             onClick={() => setIsOpen(false)}
-            className="py-4 text-lg font-semibold tracking-wide text-violet-400 transition-colors hover:text-white"
+            className="py-4 text-lg font-semibold tracking-wide text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors hover:text-white"
           >
             Contact
           </a>
