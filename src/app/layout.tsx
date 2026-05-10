@@ -16,11 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // 1. CRITICAL FIX: Added bg-[#030303] and overflow-x-hidden
-    <html lang="en" className="scroll-smooth bg-[#030303] overflow-x-hidden">
-      
-      {/* 2. CRITICAL FIX: Added text-white, min-h-screen, and overflow-x-hidden */}
-      <body className={`${inter.className} text-white antialiased relative min-h-screen overflow-x-hidden`}>
+    // FORCED MOBILE LOCK: Added w-full and max-w-[100vw]
+    <html lang="en" className="scroll-smooth bg-[#030303] overflow-x-hidden w-full max-w-[100vw]">
+      <body className={`${inter.className} text-white antialiased relative min-h-screen overflow-x-hidden w-full max-w-[100vw]`}>
         
         {/* --- GLOBAL GLOWING BRAND WATERMARK --- */}
         <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden">
@@ -36,8 +34,9 @@ export default function RootLayout({
           </div>
         </div>
         
-        {/* --- MAIN CONTENT WRAPPER --- */}
-        <div className="relative z-10">
+        {/* --- THE FORTRESS WRAPPER --- */}
+        {/* This absolutely guarantees nothing can stretch the mobile screen sideways */}
+        <div className="relative z-10 flex min-h-screen w-full max-w-[100vw] flex-col overflow-x-hidden">
           <ReactLenis root options={{ lerp: 0.05, duration: 1.5 }}>
             {children}
           </ReactLenis>

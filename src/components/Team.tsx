@@ -97,7 +97,7 @@ export default function Team() {
       <div 
         ref={containerRef}
         onWheel={handleWheel}
-        className="relative flex w-full overflow-visible py-20" 
+        className="relative flex w-full overflow-hidden py-20" 
         style={{ 
           // Re-enabled touch-pan-y so mobile devices scroll up/down smoothly while swiping horizontally
           touchAction: "pan-y",
