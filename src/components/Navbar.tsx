@@ -16,10 +16,25 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#030303]/50 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-10">
-        <a href="#top" className="text-xl font-bold tracking-tight text-white">
-          zefura
-          <span style={{ color: "hsl(var(--theme-hue, 260), 80%, 60%)" }} className="transition-colors duration-100">
-            .dev
+        
+        {/* NEW LOGO + TEXT CONTAINER */}
+        <a href="#top" className="group flex items-center gap-3 text-xl font-bold tracking-tight text-white">
+          
+          {/* LOGO ICON - Synced to the color loop */}
+          <div className="flex h-8 w-8 items-center justify-center text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-100">
+            {/* Your Custom Zefura SVG */}
+            <svg viewBox="0 0 901.8 901.14" className="h-full w-full" fill="currentColor">
+              <circle cx="801.25" cy="801.14" r="100" />
+              <path d="M950.87,149.26a99.58,99.58,0,0,1-26.39,67.68l-709.9,709.9A100.5,100.5,0,0,1,72.38,786.2L609.32,249.26H149.07a100,100,0,0,1,0-200h701.8A100,100,0,0,1,950.87,149.26Z" transform="translate(-49.07 -49.26)" />
+            </svg>
+          </div>
+
+          {/* ZEFURA.DEV TEXT */}
+          <span>
+            Zefura
+            <span style={{ color: "hsl(var(--theme-hue, 260), 80%, 60%)" }} className="transition-colors duration-100">
+              .dev
+            </span>
           </span>
         </a>
 
@@ -34,7 +49,6 @@ export default function Navbar() {
               {link.label}
             </motion.a>
           ))}
-          {/* Contact button now perfectly synced to the dynamic color loop */}
           <motion.a
             href="#contact"
             whileHover={{ y: -2 }}
@@ -61,13 +75,11 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              // Mobile nav links hover effect synced
               className="py-4 text-lg font-semibold tracking-wide text-white transition-colors hover:text-[hsl(var(--theme-hue,260),80%,60%)]"
             >
               {link.label}
             </a>
           ))}
-          {/* Mobile Contact button synced */}
           <a
             href="#contact"
             onClick={() => setIsOpen(false)}

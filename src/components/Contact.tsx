@@ -166,8 +166,17 @@ export default function Contact() {
         </div>
       </div>
 
-      <footer className="mt-24 border-t border-white/10 pt-8 text-center text-sm tracking-widest text-zinc-600">
-        © 2026 ZEFURA.DEV
+      <footer className="mt-24 flex flex-col items-center justify-center border-t border-white/10 pb-8 pt-12">
+        {/* Muted Logo that glows with the website theme on hover */}
+        <div className="mb-6 h-10 w-10 text-zinc-800 transition-colors duration-500 hover:text-[hsl(var(--theme-hue,260),80%,60%)]">
+          <svg viewBox="0 0 901.8 901.14" className="h-full w-full" fill="currentColor">
+            <circle cx="801.25" cy="801.14" r="100" />
+            <path d="M950.87,149.26a99.58,99.58,0,0,1-26.39,67.68l-709.9,709.9A100.5,100.5,0,0,1,72.38,786.2L609.32,249.26H149.07a100,100,0,0,1,0-200h701.8A100,100,0,0,1,950.87,149.26Z" transform="translate(-49.07 -49.26)" />
+          </svg>
+        </div>
+        <p className="text-center text-sm font-medium tracking-widest text-zinc-600">
+          © 2026 ZEFURA.DEV. ALL RIGHTS RESERVED.
+        </p>
       </footer>
     </section>
   );

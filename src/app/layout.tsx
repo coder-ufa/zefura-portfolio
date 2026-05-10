@@ -1,44 +1,29 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+// Updated to the brand new package path!
+import { ReactLenis } from "lenis/react"; 
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Zefura.dev — Elite Design & Development Agency",
-  description:
-    "Five minds. One obsession. We craft digital legends through Web Design, UI/UX, and Brand Architecture.",
-  metadataBase: new URL("https://zefura.dev"),
-  openGraph: {
-    title: "Zefura.dev — Elite Design & Development Agency",
-    description:
-      "Five minds. One obsession. We craft digital legends through Web Design, UI/UX, and Brand Architecture.",
-    url: "https://zefura.dev",
-    siteName: "Zefura.dev",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Zefura.dev — Elite Design & Development Agency",
-    description:
-      "Five minds. One obsession. We craft digital legends through Web Design, UI/UX, and Brand Architecture.",
-  },
+  title: "Zefura | Digital Excellence",
+  description: "A focused collective of designers and developers building high-performance platforms.",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <body className="bg-obsidian antialiased">{children}</body>
+      <body className={inter.className}>
+        {/* Lenis Smooth Scroll Wrapper */}
+        <ReactLenis root options={{ lerp: 0.05, duration: 1.5 }}>
+          {children}
+        </ReactLenis>
+      </body>
     </html>
   );
 }
