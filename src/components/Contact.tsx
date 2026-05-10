@@ -13,6 +13,7 @@ const FacebookIcon = ({ size = 24, className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
 );
 
+// CRITICAL: This "export default" is what Next.js was looking for!
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -22,28 +23,33 @@ export default function Contact() {
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
-    
-    // Your live Web3Forms Access Key
-    formData.append("access_key", "56e6d5e3-d5f5-4b49-a0f8-c61a7732c30a"); 
-
-    const object = Object.fromEntries(formData);
-    const json = JSON.stringify(object);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      // Sending data to your own Next.js Backend API
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
-        body: json,
+        body: JSON.stringify(data),
       });
+
       const result = await response.json();
-      if (result.success) {
+      
+      if (response.ok && result.success) {
         setIsSuccess(true);
+      } else {
+        console.error("Server error:", result.error);
+        alert("Something went wrong on the server. Please try again.");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Network error:", error);
+      alert("Failed to connect to the server.");
     } finally {
       setIsSubmitting(false);
     }

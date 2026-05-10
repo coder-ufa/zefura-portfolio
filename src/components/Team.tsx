@@ -2,17 +2,45 @@
 
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
+import Image from "next/image"; // 1. Imported the elite Next.js Image engine
 
 const team = [
-  { name: "Zeeshaan Shafraz", role: "Founder", desc: "Directs agency operations, oversees project architecture, and ensures elite delivery standards." },
-  { name: "Umar Farooq", role: "Co-Founder", desc: "Architects the technical foundation and drives high-performance full-stack software development." },
-  { name: "Mohammed Razaullah", role: "Co-Founder", desc: "Assists in core engineering, manages technical infrastructure, and handles financial operations." },
-  { name: "Saleem Akthar", role: "Co-Founder", desc: "Directs client relations, manages project onboarding, and ensures flawless customer experiences." },
-  { name: "Umar Azath", role: "Co-Founder", desc: "Strategizes brand presence, drives audience engagement, and leads social media growth." },
-  { name: "Abdulla Ibrahim", role: "Co-Founder", desc: "Crafts premium visual identities, UI/UX systems, and high-conversion digital designs." },
+  { 
+    name: "Zeeshaan Shafraz", 
+    role: "Founder", 
+    desc: "Directs agency operations, oversees project architecture, and ensures elite delivery standards.", 
+  },
+  { 
+    name: "Umar Farooq", 
+    role: "Co-Founder", 
+    desc: "Architects the technical foundation and drives high-performance full-stack software development.",
+    image: "/farooq.png" 
+  },
+  { 
+    name: "Mohammed Razaullah", 
+    role: "Co-Founder", 
+    desc: "Assists in core engineering, manages technical infrastructure, and handles financial operations.",
+    image: "/razaullah.jpeg" 
+  },
+  { 
+    name: "Saleem Akthar", 
+    role: "Co-Founder", 
+    desc: "Directs client relations, manages project onboarding, and ensures flawless customer experiences.",
+    image: "/akthar.jpeg" 
+  },
+  { 
+    name: "Umar Azath", 
+    role: "Co-Founder", 
+    desc: "Strategizes brand presence, drives audience engagement, and leads social media growth." 
+  },
+  { 
+    name: "Abdulla Ibrahim", 
+    role: "Co-Founder", 
+    desc: "Crafts premium visual identities, UI/UX systems, and high-conversion digital designs." 
+  },
 ];
 
-// This is the line that went missing! It duplicates the team so the loop never ends.
+// Duplicates the team so the loop never ends
 const marqueeItems = [...team, ...team, ...team, ...team];
 
 export default function Team() {
@@ -49,15 +77,28 @@ export default function Team() {
           {marqueeItems.map((member, i) => (
             <motion.div
               key={`${member.name}-${i}`}
+              // Removed the hardcoded willChange here because Framer Motion handles it sharper internally
               whileHover={{ scale: 1.4, margin: "0 80px", zIndex: 50 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              // GPU Optimization injected right here to prevent lag
-              style={{ willChange: "transform, margin" }}
               className="group relative flex h-[340px] w-[300px] shrink-0 cursor-pointer flex-col items-center justify-center rounded-3xl border border-white/10 bg-[#0A0A0A] p-8 shadow-xl transition-colors duration-300 hover:border-[hsla(var(--theme-hue,260),80%,60%,0.5)] hover:bg-[hsla(var(--theme-hue,260),80%,60%,0.05)] hover:shadow-[0_0_80px_hsla(var(--theme-hue,260),80%,60%,0.3)]"
             >
-              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[hsla(var(--theme-hue,260),80%,60%,0.2)] bg-[hsla(var(--theme-hue,260),80%,60%,0.1)] text-[hsl(var(--theme-hue,260),80%,60%)] transition-all duration-300 group-hover:scale-110 group-hover:border-[hsla(var(--theme-hue,260),80%,60%,0.4)] group-hover:bg-[hsla(var(--theme-hue,260),80%,60%,0.2)]">
-                <User size={32} />
+              {/* Image OR Icon Logic */}
+              <div className="relative mb-6 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[hsla(var(--theme-hue,260),80%,60%,0.2)] bg-[hsla(var(--theme-hue,260),80%,60%,0.1)] text-[hsl(var(--theme-hue,260),80%,60%)] transition-all duration-300 group-hover:scale-110 group-hover:border-[hsla(var(--theme-hue,260),80%,60%,0.4)] group-hover:bg-[hsla(var(--theme-hue,260),80%,60%,0.2)]">
+                {member.image ? (
+                  // 2. Upgraded to Next/Image with forced high pixel density and anti-aliasing
+                  <Image 
+                    src={member.image} 
+                    alt={`${member.name} profile`}
+                    width={256} // Forces the browser to load a 256px image into an 80px box
+                    height={256}
+                    quality={100} // Max quality
+                    style={{ backfaceVisibility: "hidden", transform: "translateZ(0)" }} // Hardware anti-aliasing
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                ) : (
+                  <User size={32} />
+                )}
               </div>
               
               <h3 className="text-center text-xl font-bold tracking-wide text-white transition-colors group-hover:text-white">
