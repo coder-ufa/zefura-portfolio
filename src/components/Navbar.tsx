@@ -22,22 +22,24 @@ export default function Navbar() {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#030303]/50 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-10">
+    // Changed w-full to inset-x-0 to prevent width stretching
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#030303]/80 backdrop-blur-md">
+      {/* Set a fixed height (h-20) and forced items to their edges */}
+      <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 md:px-10">
         
-        {/* LOGO CONTAINER */}
+        {/* LOGO CONTAINER - Locked to the left */}
         <a 
           href="#top" 
           onClick={() => setIsOpen(false)} 
-          className="group relative z-50 flex items-center gap-3 text-xl font-bold tracking-tight text-white"
+          className="relative z-50 flex shrink-0 items-center gap-3 text-xl font-bold tracking-tight text-white"
         >
-          <div className="flex h-8 w-8 items-center justify-center text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-100">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-100">
             <svg viewBox="0 0 901.8 901.14" className="h-full w-full" fill="currentColor">
               <circle cx="801.25" cy="801.14" r="100" />
               <path d="M950.87,149.26a99.58,99.58,0,0,1-26.39,67.68l-709.9,709.9A100.5,100.5,0,0,1,72.38,786.2L609.32,249.26H149.07a100,100,0,0,1,0-200h701.8A100,100,0,0,1,950.87,149.26Z" transform="translate(-49.07 -49.26)" />
             </svg>
           </div>
-          <span>
+          <span className="shrink-0">
             Zefura
             <span style={{ color: "hsl(var(--theme-hue, 260), 80%, 60%)" }} className="transition-colors duration-100">
               .dev
@@ -66,10 +68,10 @@ export default function Navbar() {
           </motion.a>
         </nav>
 
-        {/* MOBILE HAMBURGER BUTTON */}
+        {/* MOBILE HAMBURGER BUTTON - Locked to the right */}
         <button 
           onClick={() => setIsOpen(!isOpen)} 
-          className="relative z-50 text-white lg:hidden"
+          className="relative z-50 -mr-2 block shrink-0 p-2 text-white lg:hidden"
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
