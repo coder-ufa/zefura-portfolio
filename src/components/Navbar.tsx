@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navLinks = [
   { label: "Services", href: "#services" },
@@ -13,23 +13,30 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]);
+
   return (
     <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#030303]/50 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-10">
         
-        {/* NEW LOGO + TEXT CONTAINER */}
-        <a href="#top" className="group flex items-center gap-3 text-xl font-bold tracking-tight text-white">
-          
-          {/* LOGO ICON - Synced to the color loop */}
+        {/* LOGO CONTAINER */}
+        <a 
+          href="#top" 
+          onClick={() => setIsOpen(false)} 
+          className="group relative z-50 flex items-center gap-3 text-xl font-bold tracking-tight text-white"
+        >
           <div className="flex h-8 w-8 items-center justify-center text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-100">
-            {/* Your Custom Zefura SVG */}
             <svg viewBox="0 0 901.8 901.14" className="h-full w-full" fill="currentColor">
               <circle cx="801.25" cy="801.14" r="100" />
               <path d="M950.87,149.26a99.58,99.58,0,0,1-26.39,67.68l-709.9,709.9A100.5,100.5,0,0,1,72.38,786.2L609.32,249.26H149.07a100,100,0,0,1,0-200h701.8A100,100,0,0,1,950.87,149.26Z" transform="translate(-49.07 -49.26)" />
             </svg>
           </div>
-
-          {/* ZEFURA.DEV TEXT */}
           <span>
             Zefura
             <span style={{ color: "hsl(var(--theme-hue, 260), 80%, 60%)" }} className="transition-colors duration-100">
@@ -38,7 +45,8 @@ export default function Navbar() {
           </span>
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        {/* DESKTOP NAV */}
+        <nav className="hidden items-center gap-8 lg:flex">
           {navLinks.map((link) => (
             <motion.a
               key={link.label}
@@ -58,37 +66,53 @@ export default function Navbar() {
           </motion.a>
         </nav>
 
-        <button onClick={() => setIsOpen(!isOpen)} className="text-white md:hidden">
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        {/* MOBILE HAMBURGER BUTTON */}
+        <button 
+          onClick={() => setIsOpen(!isOpen)} 
+          className="relative z-50 text-white lg:hidden"
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute left-0 top-full flex w-full flex-col bg-[#030303]/95 px-6 pb-8 pt-4 backdrop-blur-xl md:hidden"
-        >
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="py-4 text-lg font-semibold tracking-wide text-white transition-colors hover:text-[hsl(var(--theme-hue,260),80%,60%)]"
-            >
-              {link.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            onClick={() => setIsOpen(false)}
-            className="py-4 text-lg font-semibold tracking-wide text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors hover:text-white"
+      {/* FULL-SCREEN PREMIUM MOBILE MENU */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-40 flex h-screen w-full flex-col items-center justify-center bg-[#030303] px-6 lg:hidden"
           >
-            Contact
-          </a>
-        </motion.div>
-      )}
+            <div className="flex flex-col items-center gap-10">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.2 }}
+                  className="text-4xl font-bold tracking-tight text-white transition-colors active:text-[hsl(var(--theme-hue,260),80%,60%)]"
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+              <motion.a
+                href="#contact"
+                onClick={() => setIsOpen(false)}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mt-6 rounded-full border border-[hsla(var(--theme-hue,260),80%,60%,0.5)] px-10 py-4 text-xl font-bold tracking-wide text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors active:bg-[hsla(var(--theme-hue,260),80%,60%,0.1)] active:text-white"
+              >
+                Contact Us
+              </motion.a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
