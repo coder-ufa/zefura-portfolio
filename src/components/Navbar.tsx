@@ -22,12 +22,10 @@ export default function Navbar() {
   }, [isOpen]);
 
   return (
-    // Changed w-full to inset-x-0 to prevent width stretching
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#030303]/80 backdrop-blur-md">
-      {/* Set a fixed height (h-20) and forced items to their edges */}
+    // OPTIMIZATION: Removed heavy blur on mobile, kept it for desktop (lg:backdrop-blur-md)
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#030303]/95 lg:bg-[#030303]/80 lg:backdrop-blur-md">
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 md:px-10">
         
-        {/* LOGO CONTAINER - Locked to the left */}
         <a 
           href="#top" 
           onClick={() => setIsOpen(false)} 
@@ -47,7 +45,6 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* DESKTOP NAV */}
         <nav className="hidden items-center gap-8 lg:flex">
           {navLinks.map((link) => (
             <motion.a
@@ -68,7 +65,6 @@ export default function Navbar() {
           </motion.a>
         </nav>
 
-        {/* MOBILE HAMBURGER BUTTON - Locked to the right */}
         <button 
           onClick={() => setIsOpen(!isOpen)} 
           className="relative z-50 -mr-2 block shrink-0 p-2 text-white lg:hidden"
@@ -77,7 +73,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* FULL-SCREEN PREMIUM MOBILE MENU */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

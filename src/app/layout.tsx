@@ -16,13 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // FORCED MOBILE LOCK: Added w-full and max-w-[100vw]
     <html lang="en" className="scroll-smooth bg-[#030303] overflow-x-hidden w-full max-w-[100vw]">
       <body className={`${inter.className} text-white antialiased relative min-h-screen overflow-x-hidden w-full max-w-[100vw]`}>
         
         {/* --- GLOBAL GLOWING BRAND WATERMARK --- */}
         <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden">
-          <div className="absolute w-[200vw] rotate-[-15deg] scale-150 text-[hsl(var(--theme-hue,260),80%,60%)] opacity-[0.05] transition-colors duration-1000 md:w-[120vw] md:scale-125">
+          {/* OPTIMIZATION: transform-gpu and will-change-transform prevent background rendering blocks */}
+          <div className="absolute w-[200vw] rotate-[-15deg] scale-150 text-[hsl(var(--theme-hue,260),80%,60%)] opacity-[0.05] transition-colors duration-1000 md:w-[120vw] md:scale-125 transform-gpu will-change-transform">
             <svg 
               viewBox="0 0 901.8 901.14" 
               className="h-full w-full drop-shadow-[0_0_120px_currentColor]" 
@@ -34,8 +34,7 @@ export default function RootLayout({
           </div>
         </div>
         
-        {/* --- THE FORTRESS WRAPPER --- */}
-        {/* This absolutely guarantees nothing can stretch the mobile screen sideways */}
+        {/* --- MAIN CONTENT WRAPPER --- */}
         <div className="relative z-10 flex min-h-screen w-full max-w-[100vw] flex-col overflow-x-hidden">
           <ReactLenis root options={{ lerp: 0.05, duration: 1.5 }}>
             {children}

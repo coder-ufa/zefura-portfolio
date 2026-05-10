@@ -3,37 +3,32 @@ import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   try {
-    // 1. Get the data from the frontend form
-    const { name, email, message } = await request.json();
+    // 1. Grab the data sent from your frontend form
+    const body = await request.json();
+    const { name, email, message } = body;
 
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-    }
-
-    // 2. Log into your Zefura Gmail account securely
+    // 2. Set up the Nodemailer engine using your Gmail credentials
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL_USER, // Your Gmail address
+        pass: process.env.EMAIL_PASS, // Your Gmail App Password (NOT your normal password)
       },
     });
 
-    // 3. Format how the email will look when it arrives in your inbox
+    // 3. Construct the email that will arrive in your inbox
     const mailOptions = {
-      from: process.env.EMAIL_USER, // The email is sent FROM your server
-      to: process.env.EMAIL_USER,   // And delivered TO your inbox
-      replyTo: email,               // If you hit "Reply", it goes to the client!
-      subject: `New Agency Inquiry from ${name}`,
-      text: `You have a new project request from Zefura.dev:\n\nName: ${name}\nEmail: ${email}\n\nProject Details:\n${message}`,
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER, // Sends the email to yourself
+      replyTo: email, // When you click "Reply" in Gmail, it replies to the client
+      subject: `Zefura Lead: New Message from ${name}`,
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>New Project Request</h2>
+        <div style="font-family: sans-serif; max-width: 600px; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
+          <h2 style="color: #111;">New Project Inquiry</h2>
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
-          <div style="background: #f4f4f5; padding: 16px; border-radius: 8px; margin-top: 16px;">
-            <p style="margin: 0; white-space: pre-wrap;">${message}</p>
-          </div>
+          <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />
+          <p style="white-space: pre-wrap; color: #333;">${message}</p>
         </div>
       `,
     };
@@ -41,9 +36,9 @@ export async function POST(request: Request) {
     // 4. Send the email!
     await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json({ success: true, message: "Email sent successfully!" }, { status: 200 });
   } catch (error) {
     console.error("Backend Email Error:", error);
-    return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+    return NextResponse.json({ success: false, message: "Failed to send email." }, { status: 500 });
   }
 }
