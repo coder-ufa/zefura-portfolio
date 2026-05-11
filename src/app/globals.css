@@ -3,12 +3,13 @@
 :root {
   --background: #030303;
   --foreground: #f4f4f5;
+  /* FIX: Explicitly define the base hue so Tailwind doesn't need a comma fallback */
+  --theme-hue: 260; 
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  /* OPTIMIZATION: Let Next.js handle the font natively, but force the browser to render text perfectly crisp */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -19,7 +20,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Highly optimized grid background that takes 0 GPU power */
+/* Highly optimized grid background */
 .tech-grid {
   background-image: 
     linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -29,17 +30,7 @@ html {
   -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
 }
 
-/* Custom Elite Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #030303; 
-}
-::-webkit-scrollbar-thumb {
-  background: #27272a; /* Zinc-800 */
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46; /* Zinc-700 */
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #030303; }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #3f3f46; }

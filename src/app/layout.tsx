@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google"; 
 import "./globals.css";
-import { ReactLenis } from "lenis/react"; 
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,24 +20,18 @@ export default function RootLayout({
         
         {/* --- GLOBAL GLOWING BRAND WATERMARK --- */}
         <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden">
-          {/* OPTIMIZATION: Added transform-gpu and will-change-transform to offload this giant SVG to the graphics card */}
-          <div className="absolute w-[200vw] rotate-[-15deg] scale-150 text-[hsl(var(--theme-hue,260),80%,60%)] opacity-[0.05] transition-colors duration-1000 md:w-[120vw] md:scale-125 transform-gpu will-change-transform">
-            <svg 
-              viewBox="0 0 901.8 901.14" 
-              className="h-full w-full drop-shadow-[0_0_120px_currentColor]" 
-              fill="currentColor"
-            >
+          {/* OPTIMIZATION: Removed the lethal drop-shadow. Replaced with pure crisp opacity. */}
+          <div className="absolute w-[200vw] rotate-[-15deg] scale-150 text-[hsl(var(--theme-hue,260),80%,60%)] opacity-[0.03] md:w-[120vw] md:scale-125 transform-gpu will-change-transform">
+            <svg viewBox="0 0 901.8 901.14" className="h-full w-full" fill="currentColor">
               <circle cx="801.25" cy="801.14" r="100" />
               <path d="M950.87,149.26a99.58,99.58,0,0,1-26.39,67.68l-709.9,709.9A100.5,100.5,0,0,1,72.38,786.2L609.32,249.26H149.07a100,100,0,0,1,0-200h701.8A100,100,0,0,1,950.87,149.26Z" transform="translate(-49.07 -49.26)" />
             </svg>
           </div>
         </div>
         
-        {/* --- THE FORTRESS WRAPPER --- */}
+        {/* OPTIMIZATION: Lenis is gone. Let the browser scroll natively. */}
         <div className="relative z-10 flex min-h-screen w-full max-w-[100vw] flex-col overflow-x-hidden">
-          <ReactLenis root options={{ lerp: 0.05, duration: 1.5 }}>
             {children}
-          </ReactLenis>
         </div>
         
       </body>

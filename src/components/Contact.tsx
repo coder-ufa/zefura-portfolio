@@ -58,19 +58,15 @@ export default function Contact() {
       </div>
 
       <div className="flex flex-col items-center">
-        {/* ENHANCEMENT: Added animate-breathe for gravity motion, and intense hover transitions for pop & glow */}
+        {/* OPTIMIZATION: Replaced heavy transform-gpu with simple animation state. Removed massive initial drop shadows that choke mobile render engines. */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="animate-breathe relative w-full rounded-3xl border border-white/10 bg-[#0A0A0A] p-8 shadow-2xl transition-all duration-500 ease-out hover:scale-[1.03] hover:border-[hsla(var(--theme-hue,260),80%,60%,0.5)] hover:shadow-[0_0_80px_hsla(var(--theme-hue,260),100%,60%,0.25)] sm:p-12 transform-gpu"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "0px" }}
+          className="animate-breathe relative w-full rounded-3xl border border-white/10 bg-[#0A0A0A] p-8 shadow-2xl transition-all duration-500 ease-out hover:scale-[1.03] hover:border-[hsla(var(--theme-hue,260),80%,60%,0.5)] hover:shadow-[0_0_80px_hsla(var(--theme-hue,260),100%,60%,0.25)] sm:p-12"
         >
           {isSuccess ? (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }} 
-              animate={{ opacity: 1, scale: 1 }} 
-              className="flex h-full min-h-[400px] flex-col items-center justify-center text-center transform-gpu"
-            >
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex h-full min-h-[400px] flex-col items-center justify-center text-center">
               <CheckCircle size={80} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-1000" />
               <h3 className="text-3xl font-bold text-white">Message Sent.</h3>
               <p className="mt-4 text-lg text-zinc-400">We will get back to you within 24 hours.</p>

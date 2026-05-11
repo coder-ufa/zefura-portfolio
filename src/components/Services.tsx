@@ -3,38 +3,13 @@
 import { motion } from "framer-motion";
 import { MonitorSmartphone, Sparkles, LayoutTemplate, Presentation, Target, Share2 } from "lucide-react";
 
-// All icons now use the dynamic text-[hsl(...)] color
 const services = [
-  { 
-    title: "Web Design", 
-    desc: "We build fast, responsive, and visually stunning websites engineered for performance and high conversion rates.", 
-    icon: <MonitorSmartphone size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" />
-  },
-  { 
-    title: "UI/UX Design", 
-    desc: "Intuitive and aesthetic digital interfaces crafted to provide seamless user experiences and drive engagement.", 
-    icon: <LayoutTemplate size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" />
-  },
-  { 
-    title: "Branding", 
-    desc: "Iconic visual identities, typography, and brand strategies designed to make your business stand out globally.", 
-    icon: <Sparkles size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" />
-  },
-  { 
-    title: "Billboard Design", 
-    desc: "High-impact physical and digital billboard designs crafted to capture attention and dominate the urban landscape.", 
-    icon: <Presentation size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" />
-  },
-  { 
-    title: "Meta Ads", 
-    desc: "Data-driven advertising campaigns engineered for precision targeting, maximum ROI, and exponential brand growth.", 
-    icon: <Target size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" />
-  },
-  { 
-    title: "Social Media Marketing", 
-    desc: "Strategic content creation and audience engagement that builds brand loyalty and drives viral reach across platforms.", 
-    icon: <Share2 size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" />
-  },
+  { title: "Web Design", desc: "We build fast, responsive, and visually stunning websites engineered for performance and high conversion rates.", icon: <MonitorSmartphone size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" /> },
+  { title: "UI/UX Design", desc: "Intuitive and aesthetic digital interfaces crafted to provide seamless user experiences and drive engagement.", icon: <LayoutTemplate size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" /> },
+  { title: "Branding", desc: "Iconic visual identities, typography, and brand strategies designed to make your business stand out globally.", icon: <Sparkles size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" /> },
+  { title: "Billboard Design", desc: "High-impact physical and digital billboard designs crafted to capture attention and dominate the urban landscape.", icon: <Presentation size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" /> },
+  { title: "Meta Ads", desc: "Data-driven advertising campaigns engineered for precision targeting, maximum ROI, and exponential brand growth.", icon: <Target size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" /> },
+  { title: "Social Media Marketing", desc: "Strategic content creation and audience engagement that builds brand loyalty and drives viral reach across platforms.", icon: <Share2 size={32} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)]" /> },
 ];
 
 export default function Services() {
@@ -52,15 +27,17 @@ export default function Services() {
             key={service.title}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "0px" }}
             transition={{ delay: i * 0.1 }}
-            whileHover={{ y: -5, scale: 1.02 }}
-            // Hover border now glows dynamically!
-            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0A0A0A] p-8 shadow-2xl transition-colors duration-300 hover:border-[hsla(var(--theme-hue,260),80%,60%,0.5)]"
+            // FIX: Removed transition-all to stop the box from lagging behind the icon
+            className="animate-breathe transform-gpu group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0A0A0A] p-8 shadow-2xl [transition-property:transform,box-shadow] duration-500 ease-out hover:z-50 hover:-translate-y-4 hover:scale-[1.05] hover:border-[hsla(var(--theme-hue,260),80%,60%,0.8)] hover:bg-[#111] hover:shadow-[0_0_80px_hsla(var(--theme-hue,260),100%,60%,0.3)]"
+            style={{ animationDelay: `${i * 0.15}s` }}
           >
-            {service.icon}
-            <h3 className="mb-4 text-2xl font-semibold text-white">{service.title}</h3>
-            <p className="text-sm leading-relaxed text-zinc-400">{service.desc}</p>
+            <div className="transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1">
+              {service.icon}
+            </div>
+            <h3 className="mb-4 text-2xl font-semibold text-white transition-colors group-hover:text-white">{service.title}</h3>
+            <p className="text-sm leading-relaxed text-zinc-400 opacity-80 transition-opacity duration-300 group-hover:opacity-100">{service.desc}</p>
           </motion.div>
         ))}
       </div>
