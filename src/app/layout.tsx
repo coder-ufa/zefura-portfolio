@@ -21,7 +21,7 @@ export default function RootLayout({
         
         {/* --- GLOBAL GLOWING BRAND WATERMARK --- */}
         <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden">
-          {/* OPTIMIZATION: transform-gpu and will-change-transform prevent background rendering blocks */}
+          {/* OPTIMIZATION: Added transform-gpu and will-change-transform to offload this giant SVG to the graphics card */}
           <div className="absolute w-[200vw] rotate-[-15deg] scale-150 text-[hsl(var(--theme-hue,260),80%,60%)] opacity-[0.05] transition-colors duration-1000 md:w-[120vw] md:scale-125 transform-gpu will-change-transform">
             <svg 
               viewBox="0 0 901.8 901.14" 
@@ -34,7 +34,7 @@ export default function RootLayout({
           </div>
         </div>
         
-        {/* --- MAIN CONTENT WRAPPER --- */}
+        {/* --- THE FORTRESS WRAPPER --- */}
         <div className="relative z-10 flex min-h-screen w-full max-w-[100vw] flex-col overflow-x-hidden">
           <ReactLenis root options={{ lerp: 0.05, duration: 1.5 }}>
             {children}

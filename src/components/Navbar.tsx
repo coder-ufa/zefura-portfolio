@@ -22,7 +22,6 @@ export default function Navbar() {
   }, [isOpen]);
 
   return (
-    // OPTIMIZATION: Removed heavy blur on mobile, kept it for desktop (lg:backdrop-blur-md)
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#030303]/95 lg:bg-[#030303]/80 lg:backdrop-blur-md">
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 md:px-10">
         
@@ -38,7 +37,7 @@ export default function Navbar() {
             </svg>
           </div>
           <span className="shrink-0">
-            Zefura
+            zefura
             <span style={{ color: "hsl(var(--theme-hue, 260), 80%, 60%)" }} className="transition-colors duration-100">
               .dev
             </span>
@@ -80,6 +79,8 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            // OPTIMIZATION: will-change hints tell the browser to offload this to the GPU
+            style={{ willChange: "transform, opacity" }}
             className="fixed inset-0 z-40 flex h-screen w-full flex-col items-center justify-center bg-[#030303] px-6 lg:hidden"
           >
             <div className="flex flex-col items-center gap-10">

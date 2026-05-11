@@ -12,13 +12,12 @@ export default function Home() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20, mass: 0.5 });
-  const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20, mass: 0.5 });
+  // FIX: Lowered mass and damping so the spotlight tracks the cursor instantly
+  const smoothX = useSpring(mouseX, { stiffness: 150, damping: 15, mass: 0.1 });
+  const smoothY = useSpring(mouseY, { stiffness: 150, damping: 15, mass: 0.1 });
 
-  // 1. Hardware-Accelerated Mouse Tracking
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Offset by half the width/height (500px) so the cursor is dead center
       mouseX.set(e.clientX - 500);
       mouseY.set(e.clientY - 500);
     };
@@ -26,58 +25,47 @@ export default function Home() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // 2. Highly Optimized Color Engine
+  // FIX: The Color Engine is now throttled. It only touches the DOM twice a second.
+  // The CSS 'transition-colors duration-1000' will make it look perfectly smooth!
   useEffect(() => {
     let hue = 260; 
-    let animationFrameId: number;
-    let lastRoundedHue = 260;
-
-    const updateHue = () => {
-      hue = (hue + 0.2) % 360;
-      const roundedHue = Math.floor(hue);
-      
-      // ONLY update the DOM if the integer has actually changed
-      if (roundedHue !== lastRoundedHue) {
-        document.documentElement.style.setProperty('--theme-hue', `${roundedHue}`);
-        lastRoundedHue = roundedHue;
+    const interval = setInterval(() => {
+      if (!document.hidden) {
+        hue = (hue + 5) % 360; 
+        document.documentElement.style.setProperty('--theme-hue', `${hue}`);
       }
-      
-      animationFrameId = requestAnimationFrame(updateHue);
-    };
+    }, 500); 
 
-    updateHue();
-    return () => cancelAnimationFrame(animationFrameId);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="relative min-h-screen bg-[#030303] text-white selection:bg-white/20">
       
-      {/* 3. GPU-Rendered Spotlight */}
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-30 h-[1000px] w-[1000px] mix-blend-screen"
+        className="pointer-events-none fixed top-0 left-0 z-30 h-[1000px] w-[1000px] mix-blend-screen hidden lg:block"
         style={{ 
           x: smoothX, 
           y: smoothY,
           background: "radial-gradient(circle, hsla(var(--theme-hue, 260), 80%, 60%, 0.2), transparent 70%)",
-          willChange: "transform" // Forces the GPU to handle this layer
+          willChange: "transform" 
         }}
       />
 
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div 
-          className="absolute -left-[10%] top-[10%] h-[500px] w-[500px] animate-float rounded-full blur-[120px] transition-colors duration-300" 
-          style={{ backgroundColor: "hsla(var(--theme-hue, 260), 80%, 60%, 0.15)", willChange: "background-color" }} 
+          className="absolute -left-[10%] top-[10%] h-[500px] w-[500px] animate-float rounded-full blur-[120px] transition-colors duration-1000 transform-gpu" 
+          style={{ backgroundColor: "hsla(var(--theme-hue, 260), 80%, 60%, 0.15)", willChange: "background-color, transform" }} 
         />
         <div 
-          className="absolute bottom-[-10%] left-[20%] h-[600px] w-[600px] animate-float rounded-full blur-[150px] transition-colors duration-300" 
-          style={{ animationDelay: "4s", backgroundColor: "hsla(var(--theme-hue, 260), 80%, 60%, 0.1)", willChange: "background-color" }} 
+          className="absolute bottom-[-10%] left-[20%] h-[600px] w-[600px] animate-float rounded-full blur-[150px] transition-colors duration-1000 transform-gpu" 
+          style={{ animationDelay: "4s", backgroundColor: "hsla(var(--theme-hue, 260), 80%, 60%, 0.1)", willChange: "background-color, transform" }} 
         />
       </div>
 
       <Navbar />
 
       <main className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pt-20 text-center sm:px-10">
-        
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -85,8 +73,8 @@ export default function Home() {
           className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-md"
         >
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 bg-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-300" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-300" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 bg-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-1000" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-1000" />
           </span>
           <span className="text-xs uppercase tracking-widest text-zinc-300">
             Zefura.dev is online
@@ -101,7 +89,7 @@ export default function Home() {
         >
           Crafting digital <br />
           <span 
-            className="transition-colors duration-300"
+            className="transition-colors duration-1000"
             style={{ 
               color: "hsl(var(--theme-hue, 260), 80%, 60%)",
               textShadow: "0 0 40px hsla(var(--theme-hue, 260), 80%, 60%, 0.4)" 
