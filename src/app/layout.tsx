@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
+import "./globals.css"; // or your global styles path
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  // This is what shows up in Google Search and the Browser Tab
   title: "Zefura | Elite Digital Agency", 
   description: "Architecting high-performance digital ecosystems, web applications, and growth campaigns for ambitious brands.",
-  
-  // This is what triggers your new banner on WhatsApp, LinkedIn, and Facebook
   openGraph: {
     title: "Zefura | Elite Digital Agency",
     description: "Architecting high-performance digital ecosystems, web applications, and growth campaigns for ambitious brands.",
@@ -22,17 +22,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
-
-  // Twitter Specific Card
-  twitter: {
-    card: "summary_large_image",
-    title: "Zefura | Elite Digital Agency",
-    description: "Architecting high-performance digital ecosystems, web applications, and growth campaigns for ambitious brands.",
-    images: ["/og-image.jpg"],
-  },
-  
-  // Connects your logo to the tab icon
   icons: {
     icon: "/icon.jpg",
   },
 };
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}
