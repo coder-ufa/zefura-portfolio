@@ -3,14 +3,41 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Code, Palette, Megaphone } from "lucide-react";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const projects = [
-  { title: "Lumina Tech", category: "Web Application", desc: "A high-performance SaaS dashboard engineered with Next.js and real-time data synchronization.", icon: <Code size={24} /> },
-  { title: "Vertex Solutions", category: "Brand Identity", desc: "Complete visual ecosystem and premium typography system for an elite financial firm.", icon: <Palette size={24} /> },
-  { title: "Nova E-Commerce", category: "Web App & Growth", desc: "Custom headless Shopify storefront paired with aggressive Meta Ad scaling.", icon: <Megaphone size={24} /> },
-  { title: "Pulse Global", category: "Corporate Platform", desc: "Enterprise-grade digital architecture handling 100k+ monthly active users effortlessly.", icon: <Code size={24} /> },
+  { 
+    title: "Travel Partner LK", 
+    category: "Social Media Marketing", 
+    desc: "Catapulted the brand to viral status across TikTok, engineering a high-impact content strategy that drove massive audience engagement and organic growth.", 
+    icon: <Megaphone size={24} />,
+    image: "/travel.jpeg", // Updated to .jpeg
+    link: "https://www.tiktok.com/@travelpartner.lk?_r=1&_t=ZS-96FSyAIXa6u"
+  },
+  { 
+    title: "Barberyn Reef Ayurveda Resort", 
+    category: "Branding", 
+    desc: "Delivered a premium corporate newsletter and the prestigious Annual Presidential Award Book under a strict 48-hour deadline, seamlessly blending luxury wellness with corporate storytelling.", 
+    icon: <Palette size={24} />,
+    image: "/barberyn.jpg", // Updated to .jpg
+    link: "https://www.barberynresorts.com/living-our-philosophy/barberyn-reef-sustainability-newsletter_2025/"
+  },
+  { 
+    title: "Coming Soon", 
+    category: "Web Development", 
+    desc: "A high-performance enterprise web platform currently in active development. Check back soon for the full technical case study.", 
+    icon: <Code size={24} />,
+    link: "#"
+  },
+  { 
+    title: "Coming Soon", 
+    category: "Web Development", 
+    desc: "An upcoming scalable digital ecosystem engineered for maximum speed, security, and global market reach.", 
+    icon: <Code size={24} />,
+    link: "#"
+  },
 ];
 
 export default function PortfolioPage() {
@@ -57,20 +84,33 @@ export default function PortfolioPage() {
         {/* Portfolio Grid */}
         <div className="mx-auto w-full max-w-7xl grid grid-cols-1 gap-8 md:grid-cols-2">
           {projects.map((project, i) => (
-            <motion.div
-              key={project.title}
+            <motion.a
+              key={project.title + i}
+              href={project.link}
+              target={project.link !== "#" ? "_blank" : "_self"}
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px" }}
               transition={{ delay: i * 0.1 }}
-              className="group relative z-0 flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#0A0A0A] p-2 shadow-xl transition-all duration-500 ease-out hover:z-50 hover:-translate-y-2 hover:scale-[1.02] hover:border-[hsla(var(--theme-hue),80%,60%,0.8)] hover:bg-[#111] hover:shadow-[0_0_60px_hsla(var(--theme-hue),100%,60%,0.2)] will-change-transform cursor-pointer"
+              className={`group relative z-0 flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#0A0A0A] p-2 shadow-xl transition-all duration-500 ease-out hover:z-50 hover:-translate-y-2 hover:scale-[1.02] hover:border-[hsla(var(--theme-hue),80%,60%,0.8)] hover:bg-[#111] hover:shadow-[0_0_60px_hsla(var(--theme-hue),100%,60%,0.2)] will-change-transform ${project.link === "#" ? "cursor-default" : "cursor-pointer"}`}
             >
-              {/* Image Placeholder area */}
+              {/* Image / Icon Placeholder area */}
               <div className="relative h-64 w-full overflow-hidden rounded-2xl bg-[#111] sm:h-80">
-                <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-[hsla(var(--theme-hue),80%,60%,0.5)] to-transparent mix-blend-overlay transition-opacity duration-500 group-hover:opacity-40" />
-                <div className="absolute inset-0 flex items-center justify-center text-zinc-800 transition-transform duration-500 group-hover:scale-110">
-                   {project.icon}
-                </div>
+                <div className="absolute inset-0 z-10 opacity-20 bg-gradient-to-br from-[hsla(var(--theme-hue),80%,60%,0.5)] to-transparent mix-blend-overlay transition-opacity duration-500 group-hover:opacity-40" />
+                
+                {project.image ? (
+                  <Image 
+                    src={project.image} 
+                    alt={project.title} 
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-zinc-800 transition-transform duration-500 group-hover:scale-110">
+                     {project.icon}
+                  </div>
+                )}
               </div>
 
               {/* Text Area */}
@@ -79,12 +119,14 @@ export default function PortfolioPage() {
                   <p className="text-xs font-bold uppercase tracking-widest text-[hsl(var(--theme-hue),80%,60%)]">
                     {project.category}
                   </p>
-                  <ArrowUpRight className="text-zinc-500 transition-colors duration-300 group-hover:text-white" size={20} />
+                  {project.link !== "#" && (
+                    <ArrowUpRight className="text-zinc-500 transition-colors duration-300 group-hover:text-white" size={20} />
+                  )}
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-4">{project.title}</h3>
                 <p className="text-zinc-400 leading-relaxed">{project.desc}</p>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </main>
