@@ -3,7 +3,6 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import Stats from "@/components/Stats";
 import Welcome from "@/components/Welcome";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Services from "@/components/Services";
@@ -91,12 +90,11 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
           className="transform-gpu mt-8 max-w-3xl text-lg leading-relaxed text-zinc-400 sm:text-xl"
         >
-          We are a focused collective of designers and developers building high-performance platforms, striking brand identities, and intuitive interfaces for ambitious startups and global brands.
+          We are a focused collective of designers and developers building high performance platforms, striking brand identities, and intuitive interfaces for ambitious startups and global brands.
         </motion.p>
       </main>
 
       <div className="relative z-10">
-        <Stats />
         <Welcome />
         <WhyChooseUs />
         <Services />

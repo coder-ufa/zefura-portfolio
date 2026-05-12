@@ -8,7 +8,7 @@ const team = [
   { 
     name: "Zeeshaan Shafraz", 
     role: "Founder", 
-    desc: "Directs agency operations, oversees project architecture, and ensures elite delivery standards.",
+    desc: "Directs agency operations, oversees project architecture, and ensures elite delivery standards, specializing in UI/UX.",
     image: "/ze.jpeg", 
     linkedin: "https://www.linkedin.com/in/zeeshaan-shafraz-zefura/?skipRedirect=true&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3Bb8I9%2BC8FQXaem9nyYp2FJg%3D%3D" 
   },

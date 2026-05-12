@@ -1,42 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MonitorSmartphone, Megaphone, Palette, CheckCircle2 } from "lucide-react";
+import { MonitorSmartphone, Megaphone, Palette } from "lucide-react";
 
-// Updated to perfectly match the 3-pillar structure with detailed bullet points
 const services = [
   { 
     title: "Digital Marketing", 
     desc: "Data-driven campaigns and aggressive growth strategies designed to scale your revenue and lower customer acquisition costs.", 
-    icon: <Megaphone size={32} />,
-    features: [
-      "Search Engine Optimization (SEO)",
-      "Meta & Google Ads (PPC)",
-      "Social Media Management",
-      "Conversion Rate Optimization"
-    ]
+    icon: <Megaphone size={32} />
   },
   { 
     title: "Web Development", 
     desc: "High-performance, custom-coded web applications and scalable platforms built with modern React and Next.js architecture.", 
-    icon: <MonitorSmartphone size={32} />,
-    features: [
-      "Custom Web Applications",
-      "E-Commerce & SaaS Platforms",
-      "API Development & Integration",
-      "High-Performance Landing Pages"
-    ]
+    icon: <MonitorSmartphone size={32} />
   },
   { 
     title: "Creative Media", 
     desc: "Premium visual ecosystems, striking UI/UX design, and brand identities that establish immediate market authority and trust.", 
-    icon: <Palette size={32} />,
-    features: [
-      "UI/UX Interface Design",
-      "Brand Identity & Guidelines",
-      "High-End Video Production",
-      "Interactive 3D & GL Experiences"
-    ]
+    icon: <Palette size={32} />
   },
 ];
 
@@ -74,24 +55,6 @@ export default function Services() {
             <p className="text-base leading-relaxed text-zinc-400 opacity-80 transition-opacity duration-300 group-hover:opacity-100">
               {service.desc}
             </p>
-
-            {/* NEW: The Point Forms (Bulleted List) */}
-            <div className="mt-8 flex-grow border-t border-white/10 pt-8 transition-colors duration-500 group-hover:border-[hsla(var(--theme-hue),80%,60%,0.3)]">
-              <ul className="flex flex-col gap-4">
-                {service.features.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <CheckCircle2 
-                      size={20} 
-                      className="mt-0.5 shrink-0 transition-colors duration-500" 
-                      style={{ color: "hsl(var(--theme-hue), 80%, 60%)" }} 
-                    />
-                    <span className="text-sm font-medium text-zinc-300 transition-colors duration-300 group-hover:text-white">
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </motion.div>
         ))}
       </div>

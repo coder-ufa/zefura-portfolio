@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Layers, Lightbulb, ShieldCheck, TrendingUp } from "lucide-react";
 
 const reasons = [
-  { title: "End-to-End Solutions", desc: "All your digital needs under one roof. From architecture to execution, we handle everything flawlessly.", icon: <Layers size={32} /> },
+  { title: "End-to-End Solutions", desc: "All your digital needs under one roof. From architecture to execution, we handle everything hassle free.", icon: <Layers size={32} /> },
   { title: "Tailored Strategies", desc: "Custom-engineered solutions built specifically for your unique business goals and market positioning.", icon: <Lightbulb size={32} /> },
   { title: "Elite Engineering", desc: "A core team of experienced professionals with high-tier creative and technical expertise.", icon: <ShieldCheck size={32} /> },
   { title: "Proven ROI", desc: "Measurable, data-driven results that increase sales, improve visibility, and deliver real business growth.", icon: <TrendingUp size={32} /> },

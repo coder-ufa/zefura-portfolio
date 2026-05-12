@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { MonitorSmartphone, Megaphone, Palette, CheckCircle2 } from "lucide-react";
+import { MonitorSmartphone, Megaphone, Palette } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -11,22 +11,19 @@ const detailedServices = [
     title: "Web Development", 
     tagline: "High-performance architecture.",
     desc: "We engineer scalable, lightning-fast web applications. We don't use dated page builders. We write custom React, Next.js, and Node.js code to ensure your platform loads instantly, ranks highly on Google, and converts traffic effortlessly.", 
-    icon: <MonitorSmartphone size={48} />,
-    features: ["Custom React & Next.js Platforms", "E-Commerce & Headless Shopify", "Secure API Integrations", "Database Architecture"]
+    icon: <MonitorSmartphone size={48} />
   },
   { 
     title: "Digital Marketing", 
     tagline: "Aggressive revenue scaling.",
     desc: "Stop wasting budget on campaigns that don't convert. Our growth team specializes in data-driven Meta Ads and Google PPC campaigns. We engineer sales funnels that aggressively target your ideal demographic and lower your customer acquisition costs.", 
-    icon: <Megaphone size={48} />,
-    features: ["Meta & Google PPC Ads", "Conversion Rate Optimization", "Technical SEO Audits", "Data & Funnel Analytics"]
+    icon: <Megaphone size={48} />
   },
   { 
     title: "Creative Media", 
     tagline: "Premium visual ecosystems.",
     desc: "Your code can be flawless, but if your brand looks cheap, high-ticket clients will walk away. We design striking UI/UX interfaces and complete visual identities that immediately establish absolute authority in your specific market.", 
-    icon: <Palette size={48} />,
-    features: ["UI/UX Interface Design", "Brand Identity Systems", "Premium Typography", "Interactive Animations"]
+    icon: <Palette size={48} />
   },
 ];
 
@@ -94,16 +91,7 @@ export default function ServicesPage() {
               <div className="flex w-full lg:w-3/5 flex-col justify-center p-10 sm:p-14">
                 <h2 className="text-sm font-bold uppercase tracking-widest text-[hsl(var(--theme-hue),80%,60%)] mb-2">{service.tagline}</h2>
                 <h3 className="text-4xl font-bold text-white mb-6">{service.title}</h3>
-                <p className="text-lg leading-relaxed text-zinc-400 mb-8">{service.desc}</p>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/10 pt-8 transition-colors duration-500 group-hover:border-[hsla(var(--theme-hue),80%,60%,0.3)]">
-                  {service.features.map((feat, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <CheckCircle2 size={18} style={{ color: "hsl(var(--theme-hue), 80%, 60%)" }} />
-                      <span className="text-sm font-medium text-zinc-300">{feat}</span>
-                    </div>
-                  ))}
-                </div>
+                <p className="text-lg leading-relaxed text-zinc-400">{service.desc}</p>
               </div>
             </motion.div>
           ))}

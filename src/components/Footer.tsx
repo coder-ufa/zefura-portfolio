@@ -38,19 +38,19 @@ export default function Footer() {
               Architecting high-performance digital ecosystems for global brands.
             </p>
             <div className="mt-6 flex items-center gap-4 text-zinc-400">
-              <a href="mailto:zefura.dev@gmail.com" className="hover:text-white transition-colors" aria-label="Email">
+              <a href="mailto:zefura.dev@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" aria-label="Email">
                 <Mail size={20} />
               </a>
               {/* Facebook */}
-              <a href="#" className="hover:text-white transition-colors" aria-label="Facebook">
+              <a href="https://web.facebook.com/profile.php?id=61589595954690" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" aria-label="Facebook">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               </a>
               {/* Instagram */}
-              <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/zefura.dev?igsh=MTF0bWNvZXFiZTdzdA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" aria-label="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
               </a>
               {/* LinkedIn */}
-              <a href="#" className="hover:text-white transition-colors" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/117224533/admin/dashboard/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
               </a>
               {/* WhatsApp */}
@@ -60,7 +60,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links (UPDATED) */}
+          {/* Quick Links */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-widest text-white">Quick Links</h4>
             <ul className="mt-6 space-y-3 text-sm text-zinc-400">
@@ -68,13 +68,12 @@ export default function Footer() {
               <li><Link href="/about" className="hover:text-[hsl(var(--theme-hue),80%,60%)] transition-colors">About Us</Link></li>
               <li><Link href="/services" className="hover:text-[hsl(var(--theme-hue),80%,60%)] transition-colors">Services</Link></li>
               <li><Link href="/portfolio" className="hover:text-[hsl(var(--theme-hue),80%,60%)] transition-colors">Portfolio</Link></li>
-              <li><Link href="/industries" className="hover:text-[hsl(var(--theme-hue),80%,60%)] transition-colors">Industries</Link></li>
               <li><Link href="/blog" className="hover:text-[hsl(var(--theme-hue),80%,60%)] transition-colors">Blog</Link></li>
               <li><Link href="/contact" className="hover:text-[hsl(var(--theme-hue),80%,60%)] transition-colors">Contact</Link></li>
             </ul>
           </div>
 
-          {/* Services (UPDATED) */}
+          {/* Services */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-widest text-white">Services</h4>
             <ul className="mt-6 space-y-3 text-sm text-zinc-400">
@@ -89,13 +88,14 @@ export default function Footer() {
             <h4 className="text-sm font-bold uppercase tracking-widest text-white">Contact</h4>
             <ul className="mt-6 space-y-3 text-sm text-zinc-400">
               <li>Colombo, Sri Lanka</li>
-              <li>+94 (XXX) XXX XXX</li>
+              <li>+94 70 246 9678</li>
+              <li>+94 77 887 2800</li>
               <li>zefura.dev@gmail.com</li>
             </ul>
           </div>
         </div>
 
-        {/* BOTTOM SECTION WITH NEW FAQ LINK */}
+        {/* Bottom Bar */}
         <div className="mt-16 border-t border-white/5 pt-8 text-center text-xs text-zinc-500 flex flex-col md:flex-row justify-between items-center gap-4">
           <p>© {new Date().getFullYear()} Zefura.dev. All rights reserved.</p>
           <div className="flex gap-6">

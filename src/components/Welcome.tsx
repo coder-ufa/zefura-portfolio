@@ -21,7 +21,7 @@ export default function Welcome() {
             We architect digital experiences that command attention.
           </h3>
           <p className="mt-6 text-lg leading-relaxed text-zinc-400">
-            Zefura is an elite collective of software engineers, designers, and growth strategists. We don't just build websites—we engineer custom digital platforms and branding ecosystems designed to scale ambitious businesses and disrupt industries.
+            Zefura is an elite collective of developers, designers, and growth strategists. We don't just build websites, we engineer custom digital platforms and branding ecosystems designed to scale ambitious businesses and disrupt industries.
           </p>
         </div>
 
