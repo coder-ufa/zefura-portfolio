@@ -1,65 +1,54 @@
-import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
-
-const escapeHTML = (str: string) => {
-  return str.replace(/[&<>'"]/g, 
-    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-  );
-};
+import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
 export async function POST(request: Request) {
   try {
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      return NextResponse.json({ success: false, message: "Server configuration error: Missing App Passwords." }, { status: 500 });
-    }
-
-    let body;
-    try {
-      body = await request.json();
-    } catch (e) {
-      return NextResponse.json({ success: false, message: "Invalid request format." }, { status: 400 });
-    }
-
-    const { name, email, message } = body;
+    const { name, email, message } = await request.json();
 
     if (!name || !email || !message) {
-      return NextResponse.json({ success: false, message: "Missing required fields." }, { status: 400 });
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const safeName = escapeHTML(name.trim());
-    const safeEmail = escapeHTML(email.trim());
-    const safeMessage = escapeHTML(message.trim());
-
+    // 1. Logs in using zefuraorders@gmail.com
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS, 
+        user: process.env.GMAIL_USER, 
+        pass: process.env.GMAIL_APP_PASSWORD, 
       },
     });
 
+    // 2. Formats the email and sends it to zefuraorders@gmail.com
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, 
-      replyTo: safeEmail, 
-      subject: `Zefura Lead: New Message from ${safeName}`,
+      from: process.env.GMAIL_USER, 
+      to: process.env.GMAIL_USER, // Sends directly to the orders inbox
+      replyTo: email, // Lets you easily reply to the client
+      subject: `New Zefura Order from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
-          <h2 style="color: #111;">New Project Inquiry</h2>
-          <p><strong>Name:</strong> ${safeName}</p>
-          <p><strong>Email:</strong> ${safeEmail}</p>
-          <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />
-          <p style="white-space: pre-wrap; color: #333;">${safeMessage}</p>
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+          <div style="background-color: #0A0A0A; padding: 20px; text-align: center;">
+            <h2 style="color: #fff; margin: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 16px;">New Zefura Order</h2>
+          </div>
+          <div style="padding: 30px; background-color: #ffffff;">
+            <p style="margin: 0 0 10px 0; color: #333;"><strong>Client Name:</strong> ${name}</p>
+            <p style="margin: 0 0 20px 0; color: #333;"><strong>Client Email:</strong> <a href="mailto:${email}" style="color: #2563eb;">${email}</a></p>
+            <div style="background: #f4f4f5; padding: 20px; border-radius: 8px; border-left: 4px solid #333;">
+              <p style="margin: 0; color: #555; font-size: 12px; text-transform: uppercase; font-weight: bold; margin-bottom: 8px;">Project Details:</p>
+              <p style="margin: 0; color: #111; line-height: 1.6;">${message}</p>
+            </div>
+          </div>
         </div>
       `,
     };
 
+    // 3. Send it!
     await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ success: true, message: "Email sent successfully!" }, { status: 200 });
-  } catch (error: any) {
-    // FIX: Grab the EXACT error message from Nodemailer and send it to the client
-    console.error("Backend Email Error:", error);
-    return NextResponse.json({ success: false, message: error.message || "Failed to send email via Nodemailer." }, { status: 500 });
+    return NextResponse.json({ success: true, message: 'Email sent successfully' }, { status: 200 });
+    
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }

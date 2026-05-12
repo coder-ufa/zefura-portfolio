@@ -1,114 +1,123 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Mail, Send, CheckCircle } from "lucide-react";
 import { useState } from "react";
-
-const InstagramIcon = ({ size = 24, className = "" }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-);
-
-const FacebookIcon = ({ size = 24, className = "" }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
-);
+import { Send, Loader2 } from "lucide-react";
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  
+  // Captures the text the user types
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsSubmitting(true);
-
-    const formData = new FormData(event.currentTarget);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
-    };
+    setSubmitStatus("idle");
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      // ⚠️ Replace '/api/contact' with your actual endpoint (e.g., Formspree URL or Next.js route)
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
+      // If you are just testing the UI without a real backend yet, you can comment out the 
+      // fetch above and uncomment the line below to simulate a successful send:
+      // await new Promise((resolve) => setTimeout(resolve, 1500)); 
+
+      if (response.ok === false) throw new Error("Failed to send");
       
-      if (response.ok && result.success) {
-        setIsSuccess(true);
-      } else {
-        console.error("Server error:", result.message);
-        alert(`Error sending message: ${result.message}`);
-      }
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", message: "" }); // Clears the form on success
     } catch (error) {
-      console.error("Network error:", error);
-      alert("Failed to connect to the server.");
+      console.error(error);
+      setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
     }
-  }
+  };
 
   return (
-    <section id="contact" className="mx-auto w-full max-w-3xl px-6 py-24 sm:px-10">
-      <div className="mb-16 text-center">
-        <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">Let's work together.</h2>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">Bring us your vision, and we’ll turn it into a flawless digital reality. Fill out the form below to get started.</p>
-      </div>
-
-      <div className="flex flex-col items-center">
-        {/* OPTIMIZATION: Replaced heavy transform-gpu with simple animation state. Removed massive initial drop shadows that choke mobile render engines. */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "0px" }}
-          className="animate-breathe relative w-full rounded-3xl border border-white/10 bg-[#0A0A0A] p-8 shadow-2xl transition-all duration-500 ease-out hover:scale-[1.03] hover:border-[hsla(var(--theme-hue,260),80%,60%,0.5)] hover:shadow-[0_0_80px_hsla(var(--theme-hue,260),100%,60%,0.25)] sm:p-12"
-        >
-          {isSuccess ? (
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex h-full min-h-[400px] flex-col items-center justify-center text-center">
-              <CheckCircle size={80} className="mb-6 text-[hsl(var(--theme-hue,260),80%,60%)] transition-colors duration-1000" />
-              <h3 className="text-3xl font-bold text-white">Message Sent.</h3>
-              <p className="mt-4 text-lg text-zinc-400">We will get back to you within 24 hours.</p>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-              <div>
-                <label htmlFor="name" className="mb-3 block text-sm font-semibold tracking-wide text-zinc-400">NAME</label>
-                <input type="text" name="name" id="name" required placeholder="John Doe" className="w-full rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-white placeholder-zinc-600 outline-none transition-all duration-300 focus:scale-[1.02] focus:border-[hsla(var(--theme-hue,260),80%,60%,0.8)] focus:bg-[#111] focus:ring-1 focus:ring-[hsla(var(--theme-hue,260),80%,60%,0.8)] focus:shadow-[0_0_30px_hsla(var(--theme-hue,260),100%,60%,0.2)]" />
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="mb-3 block text-sm font-semibold tracking-wide text-zinc-400">EMAIL</label>
-                <input type="email" name="email" id="email" required placeholder="john@example.com" className="w-full rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-white placeholder-zinc-600 outline-none transition-all duration-300 focus:scale-[1.02] focus:border-[hsla(var(--theme-hue,260),80%,60%,0.8)] focus:bg-[#111] focus:ring-1 focus:ring-[hsla(var(--theme-hue,260),80%,60%,0.8)] focus:shadow-[0_0_30px_hsla(var(--theme-hue,260),100%,60%,0.2)]" />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="mb-3 block text-sm font-semibold tracking-wide text-zinc-400">PROJECT DETAILS</label>
-                <textarea name="message" id="message" required rows={5} placeholder="Tell us about your vision..." className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-white placeholder-zinc-600 outline-none transition-all duration-300 focus:scale-[1.02] focus:border-[hsla(var(--theme-hue,260),80%,60%,0.8)] focus:bg-[#111] focus:ring-1 focus:ring-[hsla(var(--theme-hue,260),80%,60%,0.8)] focus:shadow-[0_0_30px_hsla(var(--theme-hue,260),100%,60%,0.2)]" />
-              </div>
-
-              <button type="submit" disabled={isSubmitting} className="group mt-2 flex w-full items-center justify-center gap-3 rounded-xl bg-white px-4 py-5 text-lg font-bold text-black transition-all hover:scale-[1.03] hover:bg-zinc-200 hover:shadow-[0_0_40px_hsla(var(--theme-hue,260),80%,60%,0.4)] disabled:opacity-50">
-                {isSubmitting ? "Sending..." : "Send Message"}
-                {!isSubmitting && <Send size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />}
-              </button>
-            </form>
-          )}
-        </motion.div>
-
-        <div className="mt-20 flex items-center justify-center gap-10">
-          <motion.a href="https://www.instagram.com/zefura.dev/" target="_blank" rel="noopener noreferrer" whileHover={{ y: -5, scale: 1.1 }} className="text-zinc-500 transition-colors hover:text-[hsl(var(--theme-hue,260),80%,60%)]"><InstagramIcon size={32} /></motion.a>
-          <motion.a href="mailto:zefura.dev@gmail.com" whileHover={{ y: -5, scale: 1.1 }} className="text-zinc-500 transition-colors hover:text-[hsl(var(--theme-hue,260),80%,60%)]"><Mail size={32} /></motion.a>
-          <motion.a href="https://web.facebook.com/profile.php?id=61589595954690" target="_blank" rel="noopener noreferrer" whileHover={{ y: -5, scale: 1.1 }} className="text-zinc-500 transition-colors hover:text-[hsl(var(--theme-hue,260),80%,60%)]"><FacebookIcon size={32} /></motion.a>
+    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-5">
+      
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="name" className="text-sm font-medium text-zinc-400">Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            value={formData.name}
+            onChange={handleChange}
+            required 
+            className="w-full rounded-xl border border-white/10 bg-[#111] px-4 py-3 text-white transition-all focus:border-[hsl(var(--theme-hue),80%,60%)] focus:bg-[#151515] focus:outline-none focus:ring-1 focus:ring-[hsl(var(--theme-hue),80%,60%)]" 
+            placeholder="John Doe" 
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="email" className="text-sm font-medium text-zinc-400">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            value={formData.email}
+            onChange={handleChange}
+            required 
+            className="w-full rounded-xl border border-white/10 bg-[#111] px-4 py-3 text-white transition-all focus:border-[hsl(var(--theme-hue),80%,60%)] focus:bg-[#151515] focus:outline-none focus:ring-1 focus:ring-[hsl(var(--theme-hue),80%,60%)]" 
+            placeholder="john@example.com" 
+          />
         </div>
       </div>
+      
+      <div className="flex flex-col gap-2">
+        <label htmlFor="message" className="text-sm font-medium text-zinc-400">Message</label>
+        <textarea 
+          id="message" 
+          value={formData.message}
+          onChange={handleChange}
+          required 
+          rows={5} 
+          className="w-full resize-none rounded-xl border border-white/10 bg-[#111] px-4 py-3 text-white transition-all focus:border-[hsl(var(--theme-hue),80%,60%)] focus:bg-[#151515] focus:outline-none focus:ring-1 focus:ring-[hsl(var(--theme-hue),80%,60%)]" 
+          placeholder="Tell us about your project..."
+        ></textarea>
+      </div>
 
-      <footer className="mt-24 flex flex-col items-center justify-center border-t border-white/10 pb-8 pt-12">
-        <div className="mb-6 h-10 w-10 text-zinc-800 transition-colors duration-500 hover:text-[hsl(var(--theme-hue,260),80%,60%)]">
-          <svg viewBox="0 0 901.8 901.14" className="h-full w-full" fill="currentColor"><circle cx="801.25" cy="801.14" r="100" /><path d="M950.87,149.26a99.58,99.58,0,0,1-26.39,67.68l-709.9,709.9A100.5,100.5,0,0,1,72.38,786.2L609.32,249.26H149.07a100,100,0,0,1,0-200h701.8A100,100,0,0,1,950.87,149.26Z" transform="translate(-49.07 -49.26)" /></svg>
-        </div>
-        <p className="text-center text-sm font-medium tracking-widest text-zinc-600">© {new Date().getFullYear()} ZEFURA.DEV. ALL RIGHTS RESERVED.</p>
-      </footer>
-    </section>
+      <button 
+        type="submit" 
+        disabled={isSubmitting}
+        className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 text-sm font-bold text-black transition-all hover:bg-[hsl(var(--theme-hue),80%,60%)] hover:text-white hover:shadow-[0_0_30px_hsla(var(--theme-hue),80%,60%,0.4)] disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {isSubmitting ? (
+          <Loader2 size={18} className="animate-spin text-zinc-500" />
+        ) : (
+          <>
+            Send Message
+            <Send size={18} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          </>
+        )}
+      </button>
+
+      {/* Status Messages */}
+      {submitStatus === "success" && (
+        <p className="mt-2 text-center text-sm font-medium text-emerald-400">
+          Message sent successfully! We'll be in touch soon.
+        </p>
+      )}
+      {submitStatus === "error" && (
+        <p className="mt-2 text-center text-sm font-medium text-red-400">
+          Something went wrong. Please check your connection or email us directly.
+        </p>
+      )}
+    </form>
   );
 }

@@ -3,30 +3,30 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import Link from "next/link"; // Next.js router
 
 const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#work" },
-  { label: "Team", href: "#team" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "Industries", href: "/industries" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
   }, [isOpen]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#030303]/95 lg:bg-[#030303]/80 lg:backdrop-blur-md">
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 md:px-10">
         
-        <a href="#top" onClick={() => setIsOpen(false)} className="relative z-50 flex shrink-0 items-center gap-3 text-xl font-bold tracking-tight text-white">
-          {/* FIX: Removed comma fallback so React compiles the inline style properly */}
+        <Link href="/" onClick={() => setIsOpen(false)} className="relative z-50 flex shrink-0 items-center gap-3 text-xl font-bold tracking-tight text-white">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center" style={{ color: "hsl(var(--theme-hue), 80%, 60%)" }}>
             <svg viewBox="0 0 901.8 901.14" className="h-full w-full" fill="currentColor">
               <circle cx="801.25" cy="801.14" r="100" />
@@ -34,24 +34,25 @@ export default function Navbar() {
             </svg>
           </div>
           <span className="shrink-0">
-            zefura
-            {/* FIX: Removed comma fallback */}
-            <span style={{ color: "hsl(var(--theme-hue), 80%, 60%)" }}>
-              .dev
-            </span>
+            zefura<span style={{ color: "hsl(var(--theme-hue), 80%, 60%)" }}>.dev</span>
           </span>
-        </a>
+        </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-6 lg:flex xl:gap-8">
           {navLinks.map((link) => (
-            <motion.a key={link.label} href={link.href} whileHover={{ y: -2, color: "#fff" }} className="text-xs uppercase tracking-widest text-zinc-400 transition-colors">
+            <Link
+              key={link.label}
+              href={link.href}
+              className="text-xs uppercase tracking-widest text-zinc-400 transition-colors hover:text-white"
+            >
               {link.label}
-            </motion.a>
+            </Link>
           ))}
-          {/* FIX: Removed comma fallback */}
-          <motion.a href="#contact" whileHover={{ y: -2 }} style={{ color: "hsl(var(--theme-hue), 80%, 60%)" }} className="ml-4 text-xs uppercase tracking-widest hover:text-white">
-            Contact
-          </motion.a>
+          <Link href="/contact" className="ml-2">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="rounded-full bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-black transition-shadow hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+              Start Project
+            </motion.div>
+          </Link>
         </nav>
 
         <button onClick={() => setIsOpen(!isOpen)} className="relative z-50 -mr-2 block shrink-0 p-2 text-white lg:hidden">
@@ -61,17 +62,16 @@ export default function Navbar() {
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div initial={{ opacity: 0, y: "-100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "-100%" }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} style={{ willChange: "transform, opacity" }} className="fixed inset-0 z-40 flex h-screen w-full flex-col items-center justify-center bg-[#030303] px-6 lg:hidden">
-            <div className="flex flex-col items-center gap-10">
+          <motion.div initial={{ opacity: 0, y: "-100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "-100%" }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} className="fixed inset-0 z-40 flex h-screen w-full flex-col items-center justify-center bg-[#030303] px-6 lg:hidden">
+            <div className="flex flex-col items-center gap-8">
               {navLinks.map((link, i) => (
-                <motion.a key={link.label} href={link.href} onClick={() => setIsOpen(false)} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 + 0.2 }} className="text-4xl font-bold tracking-tight text-white active:text-[hsl(var(--theme-hue),80%,60%)]">
+                <Link key={link.label} href={link.href} onClick={() => setIsOpen(false)} className="text-3xl font-bold tracking-tight text-white active:text-[hsl(var(--theme-hue),80%,60%)]">
                   {link.label}
-                </motion.a>
+                </Link>
               ))}
-              {/* FIX: Removed comma fallbacks here too */}
-              <motion.a href="#contact" onClick={() => setIsOpen(false)} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-6 rounded-full border border-[hsla(var(--theme-hue),80%,60%,0.5)] px-10 py-4 text-xl font-bold tracking-wide text-[hsl(var(--theme-hue),80%,60%)] active:bg-[hsla(var(--theme-hue),80%,60%,0.1)] active:text-white">
-                Contact Us
-              </motion.a>
+              <Link href="/contact" onClick={() => setIsOpen(false)} className="mt-6 rounded-full bg-white px-10 py-4 text-lg font-bold text-black">
+                Start Project
+              </Link>
             </div>
           </motion.div>
         )}
