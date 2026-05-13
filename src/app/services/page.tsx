@@ -3,8 +3,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { MonitorSmartphone, Megaphone, Palette } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 const detailedServices = [
   { 
@@ -48,8 +46,6 @@ export default function ServicesPage() {
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute top-[10%] right-[20%] h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 animate-float rounded-full blur-[150px] transform-gpu" style={{ backgroundColor: "hsla(var(--theme-hue), 80%, 60%, 0.1)", willChange: "transform" }} />
       </div>
-
-      <Navbar />
 
       <main className="relative z-10 flex min-h-screen flex-col items-center pt-32 pb-24 px-6 sm:px-10">
         
@@ -98,7 +94,6 @@ export default function ServicesPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

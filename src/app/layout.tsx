@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css"; // or your global styles path
+import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -34,7 +34,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="antialiased bg-[#030303]">
+        {/* These stay here so they appear on EVERY page automatically */}
         <Navbar />
         {children}
         <Footer />

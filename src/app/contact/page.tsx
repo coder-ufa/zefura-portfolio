@@ -4,9 +4,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Mail, Phone, MapPin, HelpCircle, MessageSquare, ArrowRight } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 
 export default function ContactPage() {
   
@@ -31,8 +29,6 @@ export default function ContactPage() {
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute top-[20%] left-[50%] h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 animate-float rounded-full blur-[150px] transform-gpu md:h-[600px] md:w-[600px]" style={{ backgroundColor: "hsla(var(--theme-hue), 80%, 60%, 0.1)", willChange: "transform" }} />
       </div>
-
-      <Navbar />
 
       <main className="relative z-10 flex min-h-screen flex-col items-center pt-32 pb-24 px-6 sm:px-10">
         
@@ -171,10 +167,6 @@ export default function ContactPage() {
 
         </div>
       </main>
-
-      <div className="relative z-10 border-t border-white/5 mt-12 w-full">
-        <Footer />
-      </div>
 
     </div>
   );

@@ -3,9 +3,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Target, Rocket, Users, BookOpen } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Team from "@/components/Team";
-import Footer from "@/components/Footer";
 
 export default function AboutPage() {
   
@@ -31,8 +29,6 @@ export default function AboutPage() {
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute top-[10%] left-[80%] h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 animate-float rounded-full blur-[100px] transform-gpu md:h-[500px] md:w-[500px]" style={{ backgroundColor: "hsla(var(--theme-hue), 80%, 60%, 0.1)", animationDelay: "2s", willChange: "transform" }} />
       </div>
-
-      <Navbar />
 
       <main className="relative z-10 flex min-h-screen flex-col items-center pt-32 pb-16">
         
@@ -141,16 +137,12 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 4. The Core Team Grid (NOW FIXED AND POPPING!) */}
+        {/* 4. The Core Team Grid */}
         <div className="mt-12 w-full">
             <Team />
         </div>
         
       </main>
-
-      <div className="relative z-10">
-        <Footer />
-      </div>
     </div>
   );
 }

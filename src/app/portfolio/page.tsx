@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Code, Palette, Megaphone } from "lucide-react";
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 const projects = [
   { 
@@ -13,7 +11,7 @@ const projects = [
     category: "Social Media Marketing", 
     desc: "Catapulted the brand to viral status across TikTok, engineering a high-impact content strategy that drove massive audience engagement and organic growth.", 
     icon: <Megaphone size={24} />,
-    image: "/travel.jpeg", // Updated to .jpeg
+    image: "/travel.jpeg", 
     link: "https://www.tiktok.com/@travelpartner.lk?_r=1&_t=ZS-96FSyAIXa6u"
   },
   { 
@@ -21,7 +19,7 @@ const projects = [
     category: "Branding", 
     desc: "Delivered a premium corporate newsletter and the prestigious Annual Presidential Award Book under a strict 48-hour deadline, seamlessly blending luxury wellness with corporate storytelling.", 
     icon: <Palette size={24} />,
-    image: "/barberyn.jpg", // Updated to .jpg
+    image: "/barberyn.jpg", 
     link: "https://www.barberynresorts.com/living-our-philosophy/barberyn-reef-sustainability-newsletter_2025/"
   },
   { 
@@ -61,8 +59,6 @@ export default function PortfolioPage() {
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute top-[20%] left-[20%] h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 animate-float rounded-full blur-[120px] transform-gpu" style={{ backgroundColor: "hsla(var(--theme-hue), 80%, 60%, 0.1)", willChange: "transform" }} />
       </div>
-
-      <Navbar />
 
       <main className="relative z-10 flex min-h-screen flex-col items-center pt-32 pb-24 px-6 sm:px-10">
         
@@ -131,7 +127,6 @@ export default function PortfolioPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

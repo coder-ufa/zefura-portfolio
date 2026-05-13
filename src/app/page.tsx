@@ -2,12 +2,10 @@
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect } from "react";
-import Navbar from "@/components/Navbar";
 import Welcome from "@/components/Welcome";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Services from "@/components/Services";
 import TeamSlider from "@/components/TeamSlider";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   const mouseX = useMotionValue(0);
@@ -56,8 +54,6 @@ export default function Home() {
         <div className="absolute bottom-[-10%] left-[20%] h-[400px] w-[400px] md:h-[600px] md:w-[600px] animate-float rounded-full blur-[80px] md:blur-[150px] transform-gpu" style={{ animationDelay: "4s", backgroundColor: "hsla(var(--theme-hue), 80%, 60%, 0.1)", willChange: "transform" }} />
       </div>
 
-      <Navbar />
-
       <main className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pt-20 text-center sm:px-10">
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
@@ -99,7 +95,6 @@ export default function Home() {
         <WhyChooseUs />
         <Services />
         <TeamSlider />
-        <Footer />
       </div>
     </div>
   );
